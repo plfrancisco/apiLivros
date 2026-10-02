@@ -1,28 +1,71 @@
 # API Livros
 
-CRUD da entidade Livros com Node.js, TypeScript, Express, Prisma e MySQL.
+API REST com operações CRUD para a entidade **Livros**, desenvolvida com Node.js, TypeScript, Express, Prisma ORM e MySQL.
 
-**Aluno:** Pedro Lucas Francisco de Almeida
+Projeto da disciplina de Banco de Dados / Backend do 3° semestre de Tecnologia em Sistemas para Internet (TSI).
+
+## Tecnologias
+
+- [Node.js](https://nodejs.org/) + [TypeScript](https://www.typescriptlang.org/)
+- [Express 5](https://expressjs.com/)
+- [Prisma ORM 7](https://www.prisma.io/) com adapter MariaDB
+- MySQL
+- [tsx](https://tsx.is/) para execução em desenvolvimento
+
+## Pré-requisitos
+
+- Node.js 20 ou superior
+- MySQL em execução, com um banco chamado `livros`
 
 ## Como executar
 
-1. Instalar as dependências: `npm install`
-2. Criar o banco `livros` no MySQL e ajustar a `DATABASE_URL` no arquivo `.env`
-3. Aplicar a migration: `npx prisma migrate dev`
-4. Gerar o Prisma Client: `npx prisma generate`
-5. Iniciar a API: `npm run dev`
+```bash
+# 1. Instalar as dependências
+npm install
 
-## Rotas
+# 2. Configurar o ambiente
+cp .env.example .env   # ajuste a DATABASE_URL com seus dados do MySQL
 
-| Verbo | Rota | Descrição |
-|---|---|---|
-| GET | `/livros` | Lista todos os livros |
-| GET | `/livros/:id` | Busca um livro pelo id |
-| POST | `/livros` | Cadastra um livro |
-| PUT | `/livros/:id` | Atualiza um livro |
-| DELETE | `/livros/:id` | Remove um livro |
+# 3. Aplicar a migration e gerar o Prisma Client
+npx prisma migrate dev
+npx prisma generate
 
-Exemplo de corpo para POST e PUT:
+# 4. Iniciar a API
+npm run dev
+```
+
+A API sobe em `http://localhost:3000` (ou na porta definida em `PORT`).
+
+## Variáveis de ambiente
+
+| Variável | Descrição | Exemplo |
+| --- | --- | --- |
+| `DATABASE_URL` | String de conexão com o MySQL | `mysql://usuario:senha@localhost:3306/livros` |
+| `PORT` | Porta da API (opcional, padrão `3000`) | `3000` |
+
+## Modelo de dados
+
+| Campo | Tipo | Observações |
+| --- | --- | --- |
+| `id` | Int | Chave primária, autoincremento |
+| `titulo` | String | |
+| `autor` | String | |
+| `anoPublicacao` | Int | |
+| `isbn` | String | Único |
+| `preco` | Decimal(10,2) | |
+| `criadoEm` | DateTime | Preenchido automaticamente |
+
+## Endpoints
+
+| Método | Rota | Descrição | Resposta |
+| --- | --- | --- | --- |
+| GET | `/livros` | Lista todos os livros | `200` |
+| GET | `/livros/:id` | Busca um livro pelo id | `200` / `404` |
+| POST | `/livros` | Cadastra um livro | `201` / `400` |
+| PUT | `/livros/:id` | Atualiza um livro | `200` / `404` |
+| DELETE | `/livros/:id` | Remove um livro | `204` / `404` |
+
+Exemplo de corpo para `POST` e `PUT`:
 
 ```json
 {
@@ -33,3 +76,20 @@ Exemplo de corpo para POST e PUT:
   "preco": 39.9
 }
 ```
+
+## Estrutura
+
+```text
+apiLivros/
+├── prisma/
+│   ├── migrations/
+│   └── schema.prisma
+├── src/routes/livros.ts   # rotas do CRUD
+├── prisma.ts              # instância do Prisma Client
+├── server.ts              # entrada da aplicação
+└── prisma7.config.ts
+```
+
+## Autor
+
+Pedro Lucas Francisco de Almeida
