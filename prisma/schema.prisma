@@ -1,0 +1,19 @@
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Livros {
+  id            Int      @id @default(autoincrement())
+  titulo        String
+  autor         String
+  anoPublicacao Int
+  isbn          String   @unique
+  preco         Decimal  @db.Decimal(10, 2)
+  criadoEm      DateTime @default(now())
+}
