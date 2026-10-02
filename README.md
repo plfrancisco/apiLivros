@@ -1,52 +1,34 @@
 # API Livros
 
-API REST com operações CRUD para a entidade **Livros**, desenvolvida com Node.js, TypeScript, Express, Prisma ORM e MySQL.
+![Node.js](https://img.shields.io/badge/Node.js-5FA04E?logo=nodedotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?logo=express&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-2D3748?logo=prisma&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=white)
+![status](https://img.shields.io/badge/status-concluído-success)
 
-Projeto da disciplina de Banco de Dados / Backend do 3° semestre de Tecnologia em Sistemas para Internet (TSI).
+API REST com operações CRUD para a entidade Livros, desenvolvida como
+atividade da disciplina de Backend do 3° semestre de Tecnologia em Sistemas
+para Internet (TSI).
 
-## Tecnologias
+## Sumário
 
-- [Node.js](https://nodejs.org/) + [TypeScript](https://www.typescriptlang.org/)
-- [Express 5](https://expressjs.com/)
-- [Prisma ORM 7](https://www.prisma.io/) com adapter MariaDB
-- MySQL
-- [tsx](https://tsx.is/) para execução em desenvolvimento
+- [Visão geral](#visão-geral)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Como executar](#como-executar)
+- [Endpoints](#endpoints)
+- [Stack técnica](#stack-técnica)
+- [Autor](#autor)
 
-## Pré-requisitos
+## Visão geral
 
-- Node.js 20 ou superior
-- MySQL em execução, com um banco chamado `livros`
+A API expõe o cadastro completo de livros (listar, buscar, criar, atualizar
+e remover), persistidos em MySQL por meio do Prisma ORM.
 
-## Como executar
-
-```bash
-# 1. Instalar as dependências
-npm install
-
-# 2. Configurar o ambiente
-cp .env.example .env   # ajuste a DATABASE_URL com seus dados do MySQL
-
-# 3. Aplicar a migration e gerar o Prisma Client
-npx prisma migrate dev
-npx prisma generate
-
-# 4. Iniciar a API
-npm run dev
-```
-
-A API sobe em `http://localhost:3000` (ou na porta definida em `PORT`).
-
-## Variáveis de ambiente
-
-| Variável | Descrição | Exemplo |
-| --- | --- | --- |
-| `DATABASE_URL` | String de conexão com o MySQL | `mysql://usuario:senha@localhost:3306/livros` |
-| `PORT` | Porta da API (opcional, padrão `3000`) | `3000` |
-
-## Modelo de dados
+**Modelo `Livros`**
 
 | Campo | Tipo | Observações |
-| --- | --- | --- |
+|---|---|---|
 | `id` | Int | Chave primária, autoincremento |
 | `titulo` | String | |
 | `autor` | String | |
@@ -55,10 +37,48 @@ A API sobe em `http://localhost:3000` (ou na porta definida em `PORT`).
 | `preco` | Decimal(10,2) | |
 | `criadoEm` | DateTime | Preenchido automaticamente |
 
+## Estrutura do projeto
+
+```
+apiLivros/
+├── prisma/
+│   ├── migrations/
+│   └── schema.prisma
+├── src/routes/livros.ts   # rotas do CRUD
+├── prisma.ts              # instância do Prisma Client
+├── prisma7.config.ts
+├── server.ts              # entrada da aplicação
+└── .env.example
+```
+
+## Como executar
+
+Pré-requisitos: Node.js 20+ e MySQL em execução com um banco chamado `livros`.
+
+```bash
+git clone https://github.com/plfrancisco/apiLivros.git
+cd apiLivros
+
+# Instalar dependências
+npm install
+
+# Configurar o ambiente (ajuste a DATABASE_URL)
+cp .env.example .env
+
+# Aplicar a migration e gerar o Prisma Client
+npx prisma migrate dev
+npx prisma generate
+
+# Iniciar a API
+npm run dev
+```
+
+A API sobe em `http://localhost:3000` (ou na porta definida em `PORT`).
+
 ## Endpoints
 
 | Método | Rota | Descrição | Resposta |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | GET | `/livros` | Lista todos os livros | `200` |
 | GET | `/livros/:id` | Busca um livro pelo id | `200` / `404` |
 | POST | `/livros` | Cadastra um livro | `201` / `400` |
@@ -77,19 +97,10 @@ Exemplo de corpo para `POST` e `PUT`:
 }
 ```
 
-## Estrutura
+## Stack técnica
 
-```text
-apiLivros/
-├── prisma/
-│   ├── migrations/
-│   └── schema.prisma
-├── src/routes/livros.ts   # rotas do CRUD
-├── prisma.ts              # instância do Prisma Client
-├── server.ts              # entrada da aplicação
-└── prisma7.config.ts
-```
+Node.js · TypeScript · Express 5 · Prisma ORM 7 · MySQL · tsx
 
 ## Autor
 
-Pedro Lucas Francisco de Almeida
+**Pedro Lucas Francisco de Almeida**
